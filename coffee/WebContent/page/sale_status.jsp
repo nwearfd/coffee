@@ -15,9 +15,9 @@
 	<%
 	try{
 		Class.forName("oracle.jdbc.OracleDriver");
-		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe", "system", "1234");
+		Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe", "system", "1234");
 		
-		Statement stmt = con.createStatement();
+		Statement stmt = conn.createStatement();
 		
 		String query = "SELECT " +
 				"SALENO, TBL_PRODUCT_01.PCODE, SALEDATE, SCODE, NAME, AMOUNT, COST*AMOUNT "+
@@ -41,7 +41,7 @@
 			<%
 		}
 		stmt.close();
-		con.close();
+		conn.close();
 	} catch (Exception e) {
 		e.printStackTrace();
 	}

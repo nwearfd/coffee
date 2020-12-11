@@ -12,9 +12,9 @@
 	<%
 	try{
 		Class.forName("oracle.jdbc.OracleDriver");
-		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe", "system", "1234");
+		Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe", "system", "1234");
 		
-		Statement stmt = con.createStatement();
+		Statement stmt = conn.createStatement();
 		
 		String query = "SELECT PRODUCT.PCODE, PRODUCT.NAME, SUM(PRODUCT.COST * SALELIST.AMOUNT) AS TOTAL_COST FROM TBL_SALELIST_01 SALELIST, TBL_PRODUCT_01 PRODUCT WHERE SALELIST.PCODE = PRODUCT.PCODE GROUP BY PRODUCT.PCODE, PRODUCT.NAME ORDER BY SUM(SALELIST.AMOUNT * PRODUCT.COST) desc";
 		
@@ -30,7 +30,7 @@
 			<%
 		}
 		stmt.close();
-		con.close();
+		conn.close();
 	} catch (Exception e) {
 		e.printStackTrace();
 	}

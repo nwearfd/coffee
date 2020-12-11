@@ -17,9 +17,9 @@
 					<%
 						try{
 							Class.forName("oracle.jdbc.OracleDriver");
-							Connection con = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe", "system", "1234");
+							Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe", "system", "1234");
 							
-							Statement stmt = con.createStatement();
+							Statement stmt = conn.createStatement();
 							ResultSet rs = stmt.executeQuery("SELECT PCODE, NAME FROM TBL_PRODUCT_01");
 							
 							while(rs.next()){
@@ -28,7 +28,7 @@
 								<% 
 							}
 							stmt.close();
-							con.close();
+							conn.close();
 						} 
 						catch (Exception e){
 							e.printStackTrace();
