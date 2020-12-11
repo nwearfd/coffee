@@ -10,8 +10,9 @@
 		<td>매장코드</td>
 		<td>상품명</td>
 		<td>판매수량</td>
-		<td>충판매액</td>
+		<td>총판매액</td>
 	</tr>
+	
 	<%
 	try{
 		Class.forName("oracle.jdbc.OracleDriver");
