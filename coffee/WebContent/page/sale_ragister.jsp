@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import ="java.sql.*" %>
 <h3>판매등록</h3>
+<%@ page import ="java.sql.*" %>
 
-<form action="action/insert_sale_ragister" name="action_form" method="post">
+<form action="action/insert_sale_ragister.jsp" name="action_form">
 	<table border="1">
 		<tr>
 			<td>비번호</td>
@@ -11,17 +11,9 @@
 		</tr>
 		<tr>
 			<td>상품코드</td>
-			<td><input type="text" name="sale_code"></td>
-		</tr>
-		<tr>
-			<td>판매날짜</td>
-			<td><input type="date" name="sale_date"></td>
-		</tr>
-		<tr>
-			<td>매장코드</td>
 			<td>
-				<select name="store">
-					<option value="0">매장선택</option>
+				<select name="sale_code">
+					<option value="0">상품선택</option>
 					<%
 						try{
 							Class.forName("oracle.jdbc.OracleDriver");
@@ -46,8 +38,40 @@
 			</td>
 		</tr>
 		<tr>
+			<td>판매날짜</td>
+			<td><input type="date" name="sale_date"></td>
+		</tr>
+		<tr>
+			<td>매장코드</td>
+			<td>
+				<select name="store">
+					<option value="0">매장선택</option>
+					<%
+						try{
+							Class.forName("oracle.jdbc.OracleDriver");
+							Connection con = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/xe", "system", "1234");
+							
+							Statement stmt = con.createStatement();
+							ResultSet rs = stmt.executeQuery("SELECT SCODE, SNAME FROM TBL_SHOP_01");
+							
+							while(rs.next()){
+								%>
+									<option value="<%=rs.getString(1)%>"><%=String.format("[%s] %s", rs.getString(1), rs.getString(2)) %></option>
+								<% 
+							}
+							stmt.close();
+							con.close();
+						} 
+						catch (Exception e){
+							e.printStackTrace();
+						}
+					%>
+				</select>
+			</td>
+		</tr>
+		<tr>
 			<td>판매수량</td>
-			<td><input type="number" name="sale_amount"></td>
+			<td><input type="number" name="amount"></td>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -78,9 +102,9 @@ function submit_form() {
 		alert("매장코드가 입력되지 않았습니다!")
 		return;
 	}
-	if(document.action_form.sale_amount.value === ""){
+	if(document.action_form.amount.value === ""){
 		alert("판매수량이 입력되지 않았습니다!");
-		document.action_form.sales_amount.focus();
+		document.action_form.amount.focus();
 		return;
 	}
 	
